@@ -184,4 +184,4 @@ async def 도움(ctx):
 #         await ctx.send("명령어를 찾지 못했습니다")
 
 
-bot.run("OTE1MjkyNTQ2MjgyOTUwNzE2.YaZenA.RjLpk1tXmWtnYERur0OYMgT9yY8")
+bot.run("write your token")
