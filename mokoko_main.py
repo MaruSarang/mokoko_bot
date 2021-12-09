@@ -63,8 +63,8 @@ async def play(ctx, url):
     #음성채널 입장
 
     if bot.voice_clients == []:
-    	await channel.connect()
-    	await ctx.send("음성채널에 입장했습니다, " + str(bot.voice_clients[0].channel))
+        await channel.connect()
+        await ctx.send("음성채널에 입장했습니다, " + str(bot.voice_clients[0].channel))
 
     my_song = []
     song_list = []
@@ -74,18 +74,36 @@ async def play(ctx, url):
     FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=False)
-        URL = info['formats'][0]['url']
+        play_link = info['formats'][0]['url']
+    song_list.append(play_link)
     title = info['title']
     voice = bot.voice_clients[0]
-    voice.play(discord.FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
+    voice.play(discord.FFmpegPCMAudio(song_list[0], **FFMPEG_OPTIONS))
 
-    my_song.append(title) # title틀을 my_song에 저장함
-    print(my_song,type(my_song))
-    print(my_song)
+    my_song.append(title) # title을 my_song에 저장함
+    my_song.append(100) # my_song에 100을 추가하고 !queue를 입력하니['88', 100] 가 출력됨. 정상
+    # 결국 노래 목록들을 못받아와서 막힌거
+    my_song.append(200)
+    # print(my_song,type(my_song))
+    # print(song_list,type(song_list))
 
-    @bot.command()
-    async def queue(ctx):
-        await ctx.send(my_song[0])
+    f_my_song_0 = my_song[0]
+    f_my_song_1 = my_song[1:]
+    # @bot.command()
+    # async def queue(ctx):
+    #     await ctx.send(f'현재 재생중인 곡은 " + {f_my_song_0} + "입니다.')
+    #     await ctx.send(f'{f_my_song_1}')
+    #     print(type(f_my_song_0))
+    #     print(type(f_my_song_1))
+
+    @bot.command(aliases=['queue'])
+    async def playlist(ctx):
+        embed = discord.Embed(title = my_song[0], description="재생목록입니다", color=0x4432a8)
+
+        embed.add_field(name="1." + str(my_song[1]), value="value를 입력해야 합니다.", inline=False)
+        embed.add_field(name="2." + str(my_song[2]), value="value를 입력해야 합니다.", inline=False)
+        # embed.add_field(name="3." + str(my_song[3]), value="", inline=False)
+        await ctx.send(embed=embed)
 
 
 @bot.command()
@@ -147,7 +165,7 @@ async def 모코코(ctx):
 
 @bot.command()
 async def leave(ctx):
-	await bot.voice_clients[0].disconnect()
+    await bot.voice_clients[0].disconnect()
 
 @bot.command()
 async def 주사위(ctx):
@@ -184,4 +202,4 @@ async def 도움(ctx):
 #         await ctx.send("명령어를 찾지 못했습니다")
 
 
-bot.run("OTE1MjkyNTQ2MjgyOTUwNzE2.YaZenA.RjLpk1tXmWtnYERur0OYMgT9yY8")
+bot.run("write your token")
