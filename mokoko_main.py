@@ -98,7 +98,7 @@ async def play(ctx, url):
 
     @bot.command(aliases=['queue'])
     async def playlist(ctx):
-        embed = discord.Embed(title = my_song[0], description="재생목록입니다", color=0x4432a8)
+        embed = discord.Embed(title = "현재 재생곡\n\n" + my_song[0], description="", color=0x4432a8)
 
         embed.add_field(name="1." + str(my_song[1]), value="value를 입력해야 합니다.", inline=False)
         embed.add_field(name="2." + str(my_song[2]), value="value를 입력해야 합니다.", inline=False)
@@ -174,6 +174,18 @@ async def 주사위(ctx):
     # b = random.randrange(1, 7)
     await ctx.send("주사위를 굴려서 " + str(a) +"가 나왔습니다.")
 
+
+
+@bot.command()
+async def 로또(ctx) :
+    lotto_count = 0
+    while lotto_count < 6 :
+        lotto_count = lotto_count + 1
+        lotto_number = random.randrange(1, 46)
+
+        await ctx.send(f"로또 번호 {lotto_count}번째 숫자는 {lotto_number} 입니다.")
+
+
     # if a > b:
     #         await ctx.send("패배")
     #         await ctx.send("봇의 숫자: " + str(a) + " 당신의 숫자: " + str(b))
@@ -202,4 +214,4 @@ async def 도움(ctx):
 #         await ctx.send("명령어를 찾지 못했습니다")
 
 
-bot.run("write your token")
+bot.run("OTE1MjkyNTQ2MjgyOTUwNzE2.YaZenA.PLtcB2C2UxENr6EoyW_sQRgAQvg")
